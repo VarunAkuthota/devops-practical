@@ -22,6 +22,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok' | mongo --quiet"
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
 volumes:
   mongo-data:

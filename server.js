@@ -7,7 +7,7 @@ const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const config = require('./config');
+const config = require('./config/config');
 
 const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
@@ -32,7 +32,7 @@ function listen() {
   });
 }
 
-function connect() {
+function connect(retries = 5, delay = 5000) {
   const mongoURI = process.env.MONGO_URI || config.db;
   console.log(`Connecting to MongoDB at ${mongoURI}`);
 
@@ -41,6 +41,11 @@ function connect() {
   mongoose.connection
     .on('error', (err) => {
       console.error('MongoDB connection error:', err);
+      if (retries === 0) {
+        console.error('Exhausted all retries. Could not connect to MongoDB.');
+        process.exit(1);
+      }
+      setTimeout(() => connect(retries - 1, delay), delay);
     })
     .on('disconnected', connect)
     .once('open', listen);

@@ -1,20 +1,15 @@
-# Use an official Node runtime as a parent image
-FROM node:14
-
-# Set the working directory in the container
+# Stage 1: Install dependencies
+FROM node:14 AS build
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Stage 2: Copy files and run the application
+FROM node:14
+WORKDIR /usr/src/app
+COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY . .
-
-# Expose the port the app runs on
+COPY wait-for-it.sh /usr/src/app/wait-for-it.sh
+RUN chmod +x /usr/src/app/wait-for-it.sh
 EXPOSE 3000
-
-# Command to run the app
-CMD ["node", "server.js"]
+CMD ["./wait-for-it.sh", "mongo:27017", "--", "npm", "start"]
