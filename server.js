@@ -43,21 +43,26 @@ connect();
 
 function listen() {
   if (app.get('env') === 'test') return;
-  app.listen(port);
-  console.log('Express app started on port ' + port);
+  app.listen(port, () => {
+    console.log('Express app started on port ' + port);
+  });
 }
 
 function connect() {
-  mongoose.connection
-    .on('error', console.log)
-    .on('disconnected', connect)
-    .once('open', listen);
-	
   const mongoURI = process.env.MONGO_URI || config.db;
 
-  return mongoose.connect(mongoURI, {
+  mongoose.connection
+    .on('error', (err) => {
+      console.error('MongoDB connection error:', err);
+    })
+    .on('disconnected', connect)
+    .once('open', listen);
+
+  mongoose.connect(mongoURI, {
     keepAlive: 1,
     useNewUrlParser: true,
     useUnifiedTopology: true
+  }).catch(err => {
+    console.error('Initial MongoDB connection error:', err);
   });
 }
