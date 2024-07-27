@@ -1,15 +1,5 @@
 'use strict';
 
-/*
- * nodejs-express-mongoose-demo
- * Copyright(c) 2013 Madhusudhan Srinivasa <madhums8@gmail.com>
- * MIT Licensed
- */
-
-/**
- * Module dependencies
- */
-
 require('dotenv').config();
 
 const fs = require('fs');
@@ -23,18 +13,12 @@ const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
 const app = express();
 
-/**
- * Expose
- */
-
 module.exports = app;
 
-// Bootstrap models
 fs.readdirSync(models)
   .filter(file => ~file.search(/^[^.].*\.js$/))
   .forEach(file => require(join(models, file)));
 
-// Bootstrap routes
 require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
@@ -50,6 +34,7 @@ function listen() {
 
 function connect() {
   const mongoURI = process.env.MONGO_URI || config.db;
+  console.log(`Connecting to MongoDB at ${mongoURI}`);
 
   mongoose.connection
     .on('error', (err) => {
