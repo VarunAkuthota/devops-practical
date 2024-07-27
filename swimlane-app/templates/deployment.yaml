@@ -22,4 +22,4 @@ spec:
             - containerPort: 3000
           env:
             - name: MONGO_URI
-              value: mongodb://{{ .Release.Name }}-mongo:27017/mydatabase
+              value: mongodb://swimlane-app-mongo:27017/mydatabase

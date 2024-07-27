@@ -54,6 +54,7 @@ function connect() {
     .once('open', listen);
 	
   const mongoURI = process.env.MONGO_URI || config.db;
+
   return mongoose.connect(mongoURI, {
     keepAlive: 1,
     useNewUrlParser: true,
