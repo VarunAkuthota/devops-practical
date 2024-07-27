@@ -1,0 +1,4 @@
+apiVersion: v2
+name: swimlane-app
+description: A Helm chart for deploying the Node.js swimlane-app with MongoDB
+version: 0.1.0
