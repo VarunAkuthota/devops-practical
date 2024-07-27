@@ -52,7 +52,9 @@ function connect() {
     .on('error', console.log)
     .on('disconnected', connect)
     .once('open', listen);
-  return mongoose.connect(config.db, {
+	
+  const mongoURI = process.env.MONGO_URI || config.db;
+  return mongoose.connect(mongoURI, {
     keepAlive: 1,
     useNewUrlParser: true,
     useUnifiedTopology: true
