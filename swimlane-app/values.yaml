@@ -14,8 +14,9 @@ mongodb:
     port: 27017
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 80
+  NodePort: 30080
 
 ingress:
   enabled: false

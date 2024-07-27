@@ -9,5 +9,6 @@ spec:
   ports:
     - port: {{ .Values.service.port }}
       targetPort: 3000
+      nodePort: {{ .Values.service.nodePort | default 30080 }}
   selector:
     {{- include "swimlane-app.selectorLabels" . | nindent 4 }}
