@@ -7,7 +7,7 @@ const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const config = require('./config/config');
+const config = require('./config/config'); // Ensure this path is correct
 
 const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
