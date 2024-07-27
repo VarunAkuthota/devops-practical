@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm start
+    command: ["./wait-for-it.sh", "mongo:27017", "--", "npm", "start"]
 
   mongo:
     image: mongo:latest
