@@ -36,6 +36,8 @@ function connect() {
   const mongoURI = process.env.MONGO_URI || config.db;
   console.log(`Connecting to MongoDB at ${mongoURI}`);
 
+  mongoose.set('debug', true);
+
   mongoose.connection
     .on('error', (err) => {
       console.error('MongoDB connection error:', err);
