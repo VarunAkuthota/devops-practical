@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-traffic
+spec:
+  podSelector:
+    matchLabels:
+      app: devops-practical
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: devops-practical
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: devops-practical
